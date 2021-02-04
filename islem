@@ -1,0 +1,193 @@
+<?php 
+
+include'baglan.php';
+ob_start(); 
+session_start(); 
+#admin giriş/#admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/   Bitiş
+if(isset($_POST['adminlog']))
+{
+	//değişken atama
+	$admin_user = $_POST['adminusername'];
+	$admin_pass = $_POST['adminpass'];
+
+	//sorgu yeri gösterimi
+	$query = "SELECT * FROM admin WHERE admin_username = '$admin_user' and admin_pass='$admin_pass' ";
+	
+	//baglantıyla sorguyu ilişkilendiriyor
+	$result = $conn->query($query); 
+	
+	//sonucların dogrulugunu kontrol ediyor
+	$row = $result->fetch_assoc();
+	
+	if($row['admin_username']=="$admin_user" && $row['admin_pass']=="$admin_pass")
+	{
+		$_SESSION['admin_username']= $admin_user;
+		
+		header("Location:../mberk/admin.php");
+	} 
+	else{
+		header('Location:../mberk/Section.php?login=no');
+	} 
+} 
+#admin giriş/#admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/ #admin giriş/   Bitiş
+
+#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /baslangıc
+if(isset($_POST['kitapsil']))
+{
+	
+	$silinecekkitapadi = $_POST['silinecekkitapadi'];
+	$kitapsil= "DELETE FROM kitap_list where kitap_ad='$silinecekkitapadi'";
+	if (mysqli_query($conn, $kitapsil)) {
+		header("Location:../mberk/admin.php?kitapsil=ok");  
+	}
+	else
+	{
+		header("Location:../mberk/admin.php?kitapsil=no");  
+	}
+
+
+
+}
+
+#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /#kitap sil /BİTİŞ
+
+
+#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /Baslangıc
+if(isset($_POST['kitap_ekle']))
+{
+
+	$kitap_adi = $_POST['kitap_adi'];
+	$kitap_yazar = $_POST['kitap_yazar'];
+	$kitap_yayınevi = $_POST['kitap_yayınevi'];
+	$resimyol = $_POST['resimyol'];
+	$query="INSERT INTO kitap_list (kitap_ad,kitap_yazar,kitap_yayınevi,kitap_resimyol) VALUES ('$kitap_adi','$kitap_yazar','$kitap_yayınevi','$resimyol')";
+	if (mysqli_query($conn, $query)) 
+	{
+
+		header("Location:../mberk/admin.php?add=ok");  
+	}
+
+	else 
+	{
+
+		header("Location:../mberk/admin.php?add=no");  
+
+	}
+
+}
+
+#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /#kitap Ekleme /Bitiş
+
+
+# güncelle /# güncelle /# güncelle /# güncelle /# güncelle /# güncelle /# güncelle /# güncelle /baslangıc
+if(isset($_POST['kitapguncelle']))
+{
+	$kitap_id=$_POST['kitap_id'];
+	$kitap_ad = $_POST['kitap_ad'];
+	$kitap_yazar = $_POST['kitap_yazar'];
+	$kitap_yayınevi = $_POST['kitap_yayınevi'];
+	$resimyol = $_POST['resimyol'];
+
+	$kitapguncelle = "UPDATE kitap_list SET kitap_ad ='$kitap_ad',kitap_yazar='$kitap_yazar',kitap_yayınevi='$kitap_yayınevi',kitap_resimyol='$resimyol' WHERE kitap_id='$kitap_id'";
+
+
+	if (mysqli_query($conn, $kitapguncelle)) 
+	{
+		header("Location:../mberk/update.php?Güncelleme=ok&id=$kitap_id");  
+
+	}
+	else
+	{
+		header("Location:../mberk/update.php?Güncelleme=no&id=$kitap_id");  
+	}
+
+
+}
+# güncelle /# güncelle /# güncelle /# güncelle /# güncelle /# güncelle /# güncelle /# güncelle /BİTİŞ
+
+
+#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /baslangıc
+if(isset($_POST['mesajgonder']))
+{
+
+	$isim = $_POST['isim'];
+	$mesaj = $_POST['mesaj'];
+	$kitap_id = $_POST['kitap_id'];
+	
+
+	$query="INSERT INTO mesaj (isim,mesaj,kitap_id) VALUES ('$isim','$mesaj','$kitap_id')";
+	if (mysqli_query($conn, $query)) 
+	{
+
+		header("Location:../mberk?add=ok");  
+	}
+
+	else 
+	{
+
+		header("Location:../mberk?add=no");  
+
+	}
+
+}
+
+#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /#mesajgonder /Bitiş
+
+
+#Begeni arttırma#Begeni arttırma#Begeni arttırma#Begeni arttırma#Begeni arttırma#Begeni arttırma#Begeni arttırma#Begeni arttırma /baslangıc
+if(isset($_POST['begenisayısı']))
+{
+
+	$kitap_id = $_POST['kitap_id'];
+	$begeni = $_POST['begeni'];
+
+	$begeni_arti_bir= $begeni + 1;
+
+	$kitapguncelle = "UPDATE kitap_list SET begeni ='$begeni_arti_bir' Where kitap_id='$kitap_id'";
+	if (mysqli_query($conn, $kitapguncelle)) 
+	{
+
+		header("Location:../mberk?begeni=ok");  
+	}
+
+	else 
+	{
+
+		header("Location:../mberk?begeni=no");  
+
+	}
+
+}
+
+#Begeni arttırma#Begeni arttırma#Begeni arttırma#Begeni arttırma#Begeni arttırma#Begeni arttırma#Begeni arttırma#Begeni arttırma /Bitiş
+
+
+#begenmeme arttırma#begenmeme arttırma#begenmeme arttırma#begenmeme arttırma#begenmeme arttırma#begenmeme arttırma#begenmeme arttırma/baslangıc
+
+if(isset($_POST['begenmemesayısı']))
+{
+
+	$kitap_id = $_POST['kitap_id'];
+	$begenmeme = $_POST['begenmeme'];
+
+	$begenmeme_arti_bir= $begenmeme + 1;
+
+	$kitapguncelle = "UPDATE kitap_list SET begenmeme ='$begenmeme_arti_bir' Where kitap_id='$kitap_id'";
+	if (mysqli_query($conn, $kitapguncelle)) 
+	{
+
+		header("Location:../mberk?begeni=ok");  
+	}
+
+	else 
+	{
+
+		header("Location:../mberk?begeni=no");  
+
+	}
+
+}
+
+
+#begenmeme arttırma#begenmeme arttırma#begenmeme arttırma#begenmeme arttırma#begenmeme arttırma#begenmeme arttırma#begenmeme arttırma/BİTİŞ
+?>
