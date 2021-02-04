@@ -1,0 +1,417 @@
+<?php include 'baglan.php' ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Muhammed Berke Özbek</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="Sstyle.css">
+
+  <style>
+    background-image{
+
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar-default">
+    <div class="container clearfix">
+      <div id="logo-box">
+        <a href="#" style="text-decoration: none;" class="logo text-uppercase">
+          M Berke Özbek
+        </a>
+      </div>
+      <div id="nav-links" class="responsive">
+        <ul>
+
+          <li class="nav-item">
+            <a  id="myBtn" class="nav-link text-uppercase nav-icon">
+              <i class="fas fa-bars"></i>
+            </a>
+          </li>
+
+          
+   <li class="nav-item">
+    <a href="Section.php" class="nav-link text-uppercase">
+     Yönetici Çıkış
+   </a>
+ </li>
+</ul>
+</div>
+
+
+</div>
+</nav>
+<div id="myModal" class="modal">
+  <div class="modal-content">  
+   <div class="modal-head">  
+
+     <span class="close"></span> 
+     <button class="clsbtn"></button>   
+     <h1 class="text-uppercase"style="margin-left:50px;">Menu</h1>
+
+   </div>
+
+   
+<li class="modal-li">
+ <a href="Section.php" class="nav-link text-uppercase">
+  Yönetici Çıkış
+</a>
+</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+<section class="adminpanel" id="">
+  <div class="container">
+    <h2 style="color: rgb(7, 7, 7);">Kitap Listesi</h2>
+    <br>
+    <?php 
+
+    $barsor2 ="SELECT * FROM kitap_list";
+
+    $result2 = $conn->query($barsor2);
+    if ($result2->num_rows > 0) {
+
+
+      while($row = $result2->fetch_assoc()) 
+      { 
+
+        ?>  
+
+        <!------BASI --->
+        <div class="content-item">
+          <div class="row">
+            <div class="col-sm-6">
+              <h3>Kitap İsmi</h3>
+              <h5 class="text-uppercase"><?php echo $row['kitap_ad']; ?></h5>
+            </div>
+            <div class="col-sm-6">
+              <h3>Hakkında</h3>
+              <ul>
+                <li style="list-style-type: disc;">
+                  <p class="text-uppercase">Yazar:<?php echo $row['kitap_yazar']; ?></p>
+                </li>
+                <li style="list-style-type: disc;">
+                  <p class="text-uppercase">Yayın Evi:<?php echo $row['kitap_yayınevi']; ?></p>
+                </li>
+
+              </ul>
+
+            </div>
+
+          </div>
+        </div>
+        <br>
+        <!------SONU --->
+
+      <?php }} ?>
+
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <h2 style="color: rgb(7, 7, 7);">Kitap Ekleme</h2>
+    <form action="islem.php" method="POST">
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form4Example1">Kitap İsmi</label>
+        <input type="text" name="kitap_adi" id="form4Example1" class="form-control" />    
+      </div>
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form4Example1">Yazar</label>
+        <input type="text" name="kitap_yazar" id="form4Example1" class="form-control" />    
+      </div>
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form4Example1">Yayın Evi</label>
+        <input type="text" name="kitap_yayınevi" id="form4Example1" class="form-control" />    
+      </div>
+      
+      <input type="file" name="resimyol">
+      <button type="submit" name="kitap_ekle" class="btn btn-success">EKLE</button>
+    </form>
+    <br>
+    <br>
+    <br>
+    <h2 style="color: rgb(7, 7, 7);">Kitap Silme</h2>
+    <br>
+    <br>
+    <h4>Lütfen Silmek İstediğiniz Kitabın Adını Giriniz!!</h4>
+
+    <form action="islem.php" method="POST">
+      <div class="form-outline mb-4 delete">
+        <label class="form-label" for="form4Example1">Kitap İsmi</label>
+        <input type="text" id="form4Example1" name="silinecekkitapadi" class="form-control" />    
+      </div>
+      <button  type="submit" name="kitapsil" class="btn btn-danger">Sil</button>
+    </form>
+    <br>
+    <br>
+    <br>
+
+
+    <h2 style="color: rgb(7, 7, 7);">Kitap Güncelleme</h2>
+    <br>
+    <br>
+
+
+    <!------- başı---->
+    <?php 
+
+    $barsor2 ="SELECT * FROM kitap_list";
+
+    $result2 = $conn->query($barsor2);
+    if ($result2->num_rows > 0) {
+
+
+      while($row = $result2->fetch_assoc()) 
+      { 
+
+        ?>  
+        <form action="update.php" method="GET">
+          <br>
+          <div class="content-item">
+            <div class="row">
+              <div class="col-sm-10">
+                <h3>Kitap İsmi</h3>
+                <input type="hidden" name="id" value="<?php echo $row['kitap_id'] ?>">
+                <h5 class="text-uppercase"><?php echo $row['kitap_ad']; ?></h5>
+              </div>
+              <div class="col-sm-2">
+               <button name="kitap_güncelle" class="update">Güncelle</button>
+             </div>
+
+           </div>
+         </div>
+         <br>
+       </form>
+     <?php }
+   } ?>
+   <!------- Sonu---->
+   <br>
+   <br>
+   <br>
+   <h2 style="color: rgb(7, 7, 7);">Yorum Listesi</h2>
+   <br>
+   <br>
+   <!------- bası---->
+
+   <?php 
+
+   $barsor2 ="SELECT * FROM mesaj";
+
+   $result2 = $conn->query($barsor2);
+   if ($result2->num_rows > 0) {
+
+
+    while($row = $result2->fetch_assoc()) 
+    { 
+
+      ?> 
+      <br>
+      <div class="content-item">
+        <div class="row">
+         <div class="col-sm-6">
+           <h3>İsmi</h3>
+           <h4 class="text-uppercase"><?php echo $row['isim']; ?></h4>
+         </div>
+         <div class="col-sm-6">
+           <h3>Yorumunuz</h3>
+           <h4 class="text-uppercase"><?php echo $row['mesaj']; ?></h4>
+         </div>
+
+       </div>
+     </div>
+     <br>
+   <?php }} ?>
+   <!------- Sonu---->
+
+
+
+
+ </section>
+
+
+
+
+ <div class="copyright">
+  <div class="container">
+   <small>
+    Copyright © Your Website 2020
+  </small>
+</div>
+</div>
+
+<script
+src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<script>
+  
+  
+  
+</script>
+
+<script>
+
+  var modal = document.getElementById("myModal");
+
+  
+  var btn = document.getElementById("myBtn");
+
+
+  var span = document.getElementsByClassName("close")[0];
+  var denem = document.getElementsByClassName("denem")[0];
+  var clsbtn = document.getElementsByClassName("clsbtn")[0];
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+  clsbtn.onclick = function() {
+    modal.style.display = "none";
+  }
+  denem.onclick = function() {
+    modal.style.display = "none";
+  }
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
+<script>
+
+  var modal = document.getElementById("myModal");
+  var btn = document.getElementById("myBtn");
+  var denemi = document.getElementsByClassName("denemi")[0];
+
+  denemi.onclick = function() {
+    modal.style.display = "none";
+  }
+
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+     modal.style.display = "none";
+   }
+ }
+</script>
+<script>
+
+  var modal = document.getElementById("myModal");
+  var btn = document.getElementById("myBtn");
+  var denemii = document.getElementsByClassName("denemii")[0];
+
+  denemii.onclick = function() {
+    modal.style.display = "none";
+  }
+
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+     modal.style.display = "none";
+   }
+ }
+</script>
+<script>
+
+ var modal = document.getElementById("myModal");
+ var btn = document.getElementById("myBtn");
+ var denemiii = document.getElementsByClassName("denemiii")[0];
+
+ denemiii.onclick = function() {
+   modal.style.display = "none";
+ }
+
+
+ window.onclick = function(event) {
+   if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+<script type="text/javascript">  
+  var slide_index = 1;  
+  displaySlides(slide_index);  
+  
+  function nextSlide(n) {  
+    displaySlides(slide_index += n);  
+  }  
+  
+  function currentSlide(n) {  
+    displaySlides(slide_index = n);  
+  }  
+  
+  function displaySlides(n) {  
+    var i;  
+    var slides = document.getElementsByClassName("showSlide");  
+    if (n > slides.length) { slide_index = 1 }  
+      if (n < 1) { slide_index = slides.length }  
+        for (i = 0; i < slides.length; i++) {  
+          slides[i].style.display = "none";  
+        }  
+        slides[slide_index - 1].style.display = "block";  
+      }  
+    </script>  
+    <script>
+      var slideIndex = 1;
+      showSlides(slideIndex);
+
+      function plusSlides(n) {
+        showSlides(slideIndex += n);
+      }
+
+      function currentSlide(n) {
+        showSlides(slideIndex = n);
+      }
+
+      function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("showSlideD");
+        var dots = document.getElementsByClassName(".slider__navD");
+        if (n > slides.length) {slideIndex = 1}    
+          if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+              slides[i].style.display = "none";  
+            }
+            for (i = 0; i < dots.length; i++) {
+              dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+          }
+        </script>
+        <script>
+         $(window).scroll(function(){
+           $('nav').toggleClass('scrolled', $(this).scrollTop() > 50);
+         });
+       </script>
+
+       <script>
+         $('#toggle').click(function() {
+          $('.slide-in').toggleClass('show');
+        });
+      </script>
+
+    </body>
+
+    </html>
